@@ -1,0 +1,241 @@
+swagger: "2.0"
+info:
+  description: "This is the (unofficial) CircleCI V2 API for managing webhooks."
+  version: "1.0.0"
+  title: "CircleCI webhook V2 API"
+host: "circleci.com"
+basePath: "/api/v2"
+schemes:
+- "https"
+securityDefinitions:
+  api_token:
+    type: "apiKey"
+    name: "Circle-Token"
+    in: "header"
+security:
+  - api_token: []
+
+paths:
+  /webhook:
+    post:
+      tags:
+      - "webhook"
+      summary: "Add a new webhook"
+      description: ""
+      operationId: "addWebhook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Webhook information (payload)"
+        required: true
+        schema:
+          $ref: "#/definitions/WebhookPayload"
+      responses:
+        "201":
+          description: "Successfully added"
+          schema:
+            $ref: "#/definitions/WebhookInfo"
+        "400":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Errored"
+    get:
+      tags:
+      - "webhook"
+      summary: "List webhooks"
+      description: "Get a list of webhook that match the given scope-type and scope-id"
+      operationId: "listWebhooks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"      
+      parameters:
+      - name: "scope-id"
+        in: "query"
+        description: "ID of the scope being used (at the moment, only project ID is supported)"
+        required: true
+        type: "string"
+        format: "uuid"
+      - name: "scope-type"
+        in: "query"
+        description: "Type of the scope being used"
+        required: true
+        type: "string"
+        default: "project"
+      responses:
+        "200":
+          description: "A list of webhooks"
+          schema:
+            $ref: "#/definitions/WebhooksInfo"
+        "400":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Errored"
+  /webhook/{id}:
+    get:
+      tags:
+      - "webhook"
+      summary: "Get a webhook"
+      description: "Get a webhook by id"
+      operationId: "GetWebhook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"      
+      parameters:
+      - name: "id"
+        in: "path"
+        type: "string"
+        format: "uuid"
+        required: true
+        description: "ID of the webhook"
+      responses:
+        "200":
+          description: "A webhook"
+          schema:
+            $ref: "#/definitions/WebhookInfo"
+        "400":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Errored"
+    put:
+      tags:
+      - "webhook"
+      summary: "Update a webhook"
+      description: ""
+      operationId: "UpdateWebhook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"      
+      parameters:
+      - name: "id"
+        in: "path"
+        type: "string"
+        format: "uuid"
+        required: true
+        description: "ID of the webhook"
+      - in: "body"
+        name: "body"
+        description: "Webhook information (payload)"
+        required: true
+        schema:
+          $ref: "#/definitions/WebhookPayload"
+      responses:
+        "200":
+          description: "A webhook"
+          schema:
+            $ref: "#/definitions/WebhookInfo"
+        "400":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Errored"
+    delete:
+      tags:
+      - "webhook"
+      summary: "Delete a webhook"
+      description: ""
+      operationId: "DeleteWebhook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"      
+      parameters:
+      - name: "id"
+        in: "path"
+        type: "string"
+        format: "uuid"
+        required: true
+        description: "ID of the webhook"
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: "#/definitions/Deleted"
+        "400":
+          description: "Invalid input"
+          schema:
+            $ref: "#/definitions/Errored"
+definitions:
+  WebhookPayload:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "Name of the webhook"
+      url:
+        type: "string"
+        format: "url"
+        description: "URL to deliver the webhook to. Note: protocol must be included as well (only https is supported)"
+      verify-tls:
+        type: "boolean"
+        description: "Whether to enforce TLS certificate verification when delivering the webhook"
+      signing-secret:
+        type: "string"
+        format: "secret"
+        description: "Secret used to build an HMAC hash of the payload and passed as a header in the webhook request"
+      events:
+        type: "array"
+        description: "Events that will trigger the webhook"
+        items:
+          type: "string"
+          enum:
+            - "workflow-completed"
+            - "job-completed"
+      scope:
+        type: "object"
+        description: "The scope in which the relevant events that will trigger webhooks"
+        properties:
+          id:
+            type: "string"
+            format: "uuid"
+            description: "ID of the scope being used (at the moment, only project ID is supported)"
+          type:
+            type: "string"
+            default: "project"
+            description: "Type of the scope being used"
+  WebhookInfo:
+    allOf:
+    - $ref: '#/definitions/WebhookPayload'
+    - type: "object"
+      properties: 
+        id:
+          type: "string"
+          format: "uuid"
+          description: "The unique ID of the webhook"
+        created-at:
+          type: "string"
+          format: "date-time"
+          description: "The date and time the webhook was last updated"
+        updated-at:
+          type: "string"
+          format: "date-time"
+          description: "The date and time the webhook was created"
+  WebhooksInfo:
+    type: "object"
+    properties: 
+      items:
+        type: "array"
+        items:
+          $ref: '#/definitions/WebhookInfo'  
+      next_page_token:
+        type: "string"
+  Deleted:
+    type: "object"
+    properties: 
+      message:
+        type: "string"
+        description: "A human-readable message"
+  Errored:
+    type: "object"
+    properties: 
+      message:
+        type: "string"
+        description: "Error message" 
+externalDocs:
+  description: "Find official API document for CircleCI here"
+  url: "https://circleci.com/docs/api/v2/index.html#tag/Webhook"
