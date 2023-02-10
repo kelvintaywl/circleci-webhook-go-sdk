@@ -67,7 +67,7 @@ type AddWebhookParams struct {
 
 	   Webhook information (payload)
 	*/
-	Body *models.WebhookPayload
+	Body *models.WebhookPayloadForRequest
 
 	timeout    time.Duration
 	Context    context.Context
@@ -123,13 +123,13 @@ func (o *AddWebhookParams) SetHTTPClient(client *http.Client) {
 }
 
 // WithBody adds the body to the add webhook params
-func (o *AddWebhookParams) WithBody(body *models.WebhookPayload) *AddWebhookParams {
+func (o *AddWebhookParams) WithBody(body *models.WebhookPayloadForRequest) *AddWebhookParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the add webhook params
-func (o *AddWebhookParams) SetBody(body *models.WebhookPayload) {
+func (o *AddWebhookParams) SetBody(body *models.WebhookPayloadForRequest) {
 	o.Body = body
 }
 

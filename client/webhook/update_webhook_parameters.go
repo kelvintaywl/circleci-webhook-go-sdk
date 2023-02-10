@@ -67,7 +67,7 @@ type UpdateWebhookParams struct {
 
 	   Webhook information (payload)
 	*/
-	Body *models.WebhookPayload
+	Body *models.WebhookPayloadForRequest
 
 	/* ID.
 
@@ -131,13 +131,13 @@ func (o *UpdateWebhookParams) SetHTTPClient(client *http.Client) {
 }
 
 // WithBody adds the body to the update webhook params
-func (o *UpdateWebhookParams) WithBody(body *models.WebhookPayload) *UpdateWebhookParams {
+func (o *UpdateWebhookParams) WithBody(body *models.WebhookPayloadForRequest) *UpdateWebhookParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the update webhook params
-func (o *UpdateWebhookParams) SetBody(body *models.WebhookPayload) {
+func (o *UpdateWebhookParams) SetBody(body *models.WebhookPayloadForRequest) {
 	o.Body = body
 }
 

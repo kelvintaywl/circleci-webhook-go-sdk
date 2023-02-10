@@ -18,7 +18,7 @@ import (
 //
 // swagger:model WebhookInfo
 type WebhookInfo struct {
-	WebhookPayload
+	WebhookPayloadForResponse
 
 	// The date and time the webhook was created
 	// Example: 2023-02-10T04:49:36.117Z
@@ -39,11 +39,11 @@ type WebhookInfo struct {
 // UnmarshalJSON unmarshals this object from a JSON structure
 func (m *WebhookInfo) UnmarshalJSON(raw []byte) error {
 	// AO0
-	var aO0 WebhookPayload
+	var aO0 WebhookPayloadForResponse
 	if err := swag.ReadJSON(raw, &aO0); err != nil {
 		return err
 	}
-	m.WebhookPayload = aO0
+	m.WebhookPayloadForResponse = aO0
 
 	// AO1
 	var dataAO1 struct {
@@ -70,7 +70,7 @@ func (m *WebhookInfo) UnmarshalJSON(raw []byte) error {
 func (m WebhookInfo) MarshalJSON() ([]byte, error) {
 	_parts := make([][]byte, 0, 2)
 
-	aO0, err := swag.WriteJSON(m.WebhookPayload)
+	aO0, err := swag.WriteJSON(m.WebhookPayloadForResponse)
 	if err != nil {
 		return nil, err
 	}
@@ -101,8 +101,8 @@ func (m WebhookInfo) MarshalJSON() ([]byte, error) {
 func (m *WebhookInfo) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	// validation for a type composition with WebhookPayload
-	if err := m.WebhookPayload.Validate(formats); err != nil {
+	// validation for a type composition with WebhookPayloadForResponse
+	if err := m.WebhookPayloadForResponse.Validate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -167,8 +167,8 @@ func (m *WebhookInfo) validateUpdatedAt(formats strfmt.Registry) error {
 func (m *WebhookInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
-	// validation for a type composition with WebhookPayload
-	if err := m.WebhookPayload.ContextValidate(ctx, formats); err != nil {
+	// validation for a type composition with WebhookPayloadForResponse
+	if err := m.WebhookPayloadForResponse.ContextValidate(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 

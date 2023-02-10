@@ -33,7 +33,7 @@ paths:
         description: "Webhook information (payload)"
         required: true
         schema:
-          $ref: "#/definitions/WebhookPayload"
+          $ref: "#/definitions/WebhookPayloadForRequest"
       responses:
         "201":
           description: "Successfully added"
@@ -124,7 +124,7 @@ paths:
         description: "Webhook information (payload)"
         required: true
         schema:
-          $ref: "#/definitions/WebhookPayload"
+          $ref: "#/definitions/WebhookPayloadForRequest"
       responses:
         "200":
           description: "A webhook"
@@ -161,7 +161,7 @@ paths:
           schema:
             $ref: "#/definitions/Errored"
 definitions:
-  WebhookPayload:
+  WebhookBasePayload:
     type: "object"
     properties:
       name:
@@ -173,15 +173,6 @@ definitions:
         format: "url"
         description: "URL to deliver the webhook to. Note: protocol must be included as well (only https is supported)"
         example: "https://example.com/hook"
-      verify-tls:
-        type: "boolean"
-        description: "Whether to enforce TLS certificate verification when delivering the webhook"
-        example: true
-      signing-secret:
-        type: "string"
-        format: "secret"
-        description: "Secret used to build an HMAC hash of the payload and passed as a header in the webhook request"
-        example: "****"
       events:
         type: "array"
         description: "Events that will trigger the webhook"
@@ -205,9 +196,37 @@ definitions:
             default: "project"
             description: "Type of the scope being used"
             example: "project"
+  WebhookPayloadForRequest:
+    allOf:
+      - $ref: '#/definitions/WebhookBasePayload'
+      - type: "object"
+        properties:
+          verify-tls:
+            type: "boolean"
+            description: "Whether to enforce TLS certificate verification when delivering the webhook"
+            example: true
+          signing-secret:
+            type: "string"
+            format: "secret"
+            description: "Secret used to build an HMAC hash of the payload and passed as a header in the webhook request"
+            example: "****"
+  WebhookPayloadForResponse:
+    allOf:
+      - $ref: '#/definitions/WebhookBasePayload'
+      - type: "object"
+        properties:
+          verify_tls:
+            type: "boolean"
+            description: "Whether to enforce TLS certificate verification when delivering the webhook"
+            example: true
+          signing_secret:
+            type: "string"
+            format: "secret"
+            description: "Secret used to build an HMAC hash of the payload and passed as a header in the webhook request"
+            example: "****"
   WebhookInfo:
     allOf:
-    - $ref: '#/definitions/WebhookPayload'
+    - $ref: '#/definitions/WebhookPayloadForResponse'
     - type: "object"
       properties: 
         id:
