@@ -23,7 +23,7 @@ type WebhookInfo struct {
 	// The date and time the webhook was created
 	// Example: 2023-02-10T04:49:36.117Z
 	// Format: date-time
-	CreatedAt strfmt.DateTime `json:"created-at,omitempty"`
+	CreatedAt strfmt.DateTime `json:"created_at,omitempty"`
 
 	// The unique ID of the webhook
 	// Example: d57ecc67-7a3b-4fd9-a1b4-442d4703bb8d
@@ -33,7 +33,7 @@ type WebhookInfo struct {
 	// The date and time the webhook was last updated
 	// Example: 2023-02-10T04:49:36.117Z
 	// Format: date-time
-	UpdatedAt strfmt.DateTime `json:"updated-at,omitempty"`
+	UpdatedAt strfmt.DateTime `json:"updated_at,omitempty"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -47,11 +47,11 @@ func (m *WebhookInfo) UnmarshalJSON(raw []byte) error {
 
 	// AO1
 	var dataAO1 struct {
-		CreatedAt strfmt.DateTime `json:"created-at,omitempty"`
+		CreatedAt strfmt.DateTime `json:"created_at,omitempty"`
 
 		ID strfmt.UUID `json:"id,omitempty"`
 
-		UpdatedAt strfmt.DateTime `json:"updated-at,omitempty"`
+		UpdatedAt strfmt.DateTime `json:"updated_at,omitempty"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
 		return err
@@ -76,11 +76,11 @@ func (m WebhookInfo) MarshalJSON() ([]byte, error) {
 	}
 	_parts = append(_parts, aO0)
 	var dataAO1 struct {
-		CreatedAt strfmt.DateTime `json:"created-at,omitempty"`
+		CreatedAt strfmt.DateTime `json:"created_at,omitempty"`
 
 		ID strfmt.UUID `json:"id,omitempty"`
 
-		UpdatedAt strfmt.DateTime `json:"updated-at,omitempty"`
+		UpdatedAt strfmt.DateTime `json:"updated_at,omitempty"`
 	}
 
 	dataAO1.CreatedAt = m.CreatedAt
@@ -130,7 +130,7 @@ func (m *WebhookInfo) validateCreatedAt(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("created-at", "body", "date-time", m.CreatedAt.String(), formats); err != nil {
+	if err := validate.FormatOf("created_at", "body", "date-time", m.CreatedAt.String(), formats); err != nil {
 		return err
 	}
 
@@ -156,7 +156,7 @@ func (m *WebhookInfo) validateUpdatedAt(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("updated-at", "body", "date-time", m.UpdatedAt.String(), formats); err != nil {
+	if err := validate.FormatOf("updated_at", "body", "date-time", m.UpdatedAt.String(), formats); err != nil {
 		return err
 	}
 
