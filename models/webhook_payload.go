@@ -22,21 +22,26 @@ import (
 type WebhookPayload struct {
 
 	// Events that will trigger the webhook
+	// Example: ["workflow-completed"]
 	Events []string `json:"events"`
 
 	// Name of the webhook
+	// Example: test1
 	Name string `json:"name,omitempty"`
 
 	// scope
 	Scope *WebhookPayloadScope `json:"scope,omitempty"`
 
 	// Secret used to build an HMAC hash of the payload and passed as a header in the webhook request
+	// Example: ****
 	SigningSecret string `json:"signing-secret,omitempty"`
 
 	// URL to deliver the webhook to. Note: protocol must be included as well (only https is supported)
+	// Example: https://example.com/hook
 	URL string `json:"url,omitempty"`
 
 	// Whether to enforce TLS certificate verification when delivering the webhook
+	// Example: true
 	VerifyTLS bool `json:"verify-tls,omitempty"`
 }
 
@@ -167,10 +172,12 @@ func (m *WebhookPayload) UnmarshalBinary(b []byte) error {
 type WebhookPayloadScope struct {
 
 	// ID of the scope being used (at the moment, only project ID is supported)
+	// Example: c124cca6-d03e-4733-b84d-32b02347b78c
 	// Format: uuid
 	ID strfmt.UUID `json:"id,omitempty"`
 
 	// Type of the scope being used
+	// Example: project
 	Type *string `json:"type,omitempty"`
 }
 

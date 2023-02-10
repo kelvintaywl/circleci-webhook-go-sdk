@@ -167,17 +167,21 @@ definitions:
       name:
         type: "string"
         description: "Name of the webhook"
+        example: "test1"
       url:
         type: "string"
         format: "url"
         description: "URL to deliver the webhook to. Note: protocol must be included as well (only https is supported)"
+        example: "https://example.com/hook"
       verify-tls:
         type: "boolean"
         description: "Whether to enforce TLS certificate verification when delivering the webhook"
+        example: true
       signing-secret:
         type: "string"
         format: "secret"
         description: "Secret used to build an HMAC hash of the payload and passed as a header in the webhook request"
+        example: "****"
       events:
         type: "array"
         description: "Events that will trigger the webhook"
@@ -186,6 +190,7 @@ definitions:
           enum:
             - "workflow-completed"
             - "job-completed"
+        example: ["workflow-completed"]
       scope:
         type: "object"
         description: "The scope in which the relevant events that will trigger webhooks"
@@ -194,10 +199,12 @@ definitions:
             type: "string"
             format: "uuid"
             description: "ID of the scope being used (at the moment, only project ID is supported)"
+            example: "c124cca6-d03e-4733-b84d-32b02347b78c"
           type:
             type: "string"
             default: "project"
             description: "Type of the scope being used"
+            example: "project"
   WebhookInfo:
     allOf:
     - $ref: '#/definitions/WebhookPayload'
@@ -207,14 +214,17 @@ definitions:
           type: "string"
           format: "uuid"
           description: "The unique ID of the webhook"
+          example: "d57ecc67-7a3b-4fd9-a1b4-442d4703bb8d"
         created-at:
           type: "string"
           format: "date-time"
-          description: "The date and time the webhook was last updated"
+          description: "The date and time the webhook was created"
+          example: "2023-02-10T04:49:36.117Z"
         updated-at:
           type: "string"
           format: "date-time"
-          description: "The date and time the webhook was created"
+          description: "The date and time the webhook was last updated"
+          example: "2023-02-10T04:49:36.117Z"
   WebhooksInfo:
     type: "object"
     properties: 
@@ -224,6 +234,7 @@ definitions:
           $ref: '#/definitions/WebhookInfo'  
       next_page_token:
         type: "string"
+        example: ""
   Deleted:
     type: "object"
     properties: 

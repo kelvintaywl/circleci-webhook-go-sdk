@@ -20,15 +20,18 @@ import (
 type WebhookInfo struct {
 	WebhookPayload
 
-	// The date and time the webhook was last updated
+	// The date and time the webhook was created
+	// Example: 2023-02-10T04:49:36.117Z
 	// Format: date-time
 	CreatedAt strfmt.DateTime `json:"created-at,omitempty"`
 
 	// The unique ID of the webhook
+	// Example: d57ecc67-7a3b-4fd9-a1b4-442d4703bb8d
 	// Format: uuid
 	ID strfmt.UUID `json:"id,omitempty"`
 
-	// The date and time the webhook was created
+	// The date and time the webhook was last updated
+	// Example: 2023-02-10T04:49:36.117Z
 	// Format: date-time
 	UpdatedAt strfmt.DateTime `json:"updated-at,omitempty"`
 }
