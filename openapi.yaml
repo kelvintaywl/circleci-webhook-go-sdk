@@ -205,6 +205,7 @@ definitions:
             type: "boolean"
             description: "Whether to enforce TLS certificate verification when delivering the webhook"
             example: true
+            x-nullable: true
           signing-secret:
             type: "string"
             format: "secret"
@@ -219,6 +220,7 @@ definitions:
             type: "boolean"
             description: "Whether to enforce TLS certificate verification when delivering the webhook"
             example: true
+            x-nullable: true
           signing_secret:
             type: "string"
             format: "secret"

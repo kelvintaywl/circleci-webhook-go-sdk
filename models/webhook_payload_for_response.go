@@ -25,7 +25,7 @@ type WebhookPayloadForResponse struct {
 
 	// Whether to enforce TLS certificate verification when delivering the webhook
 	// Example: true
-	VerifyTLS bool `json:"verify_tls,omitempty"`
+	VerifyTLS *bool `json:"verify_tls,omitempty"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -41,7 +41,7 @@ func (m *WebhookPayloadForResponse) UnmarshalJSON(raw []byte) error {
 	var dataAO1 struct {
 		SigningSecret string `json:"signing_secret,omitempty"`
 
-		VerifyTLS bool `json:"verify_tls,omitempty"`
+		VerifyTLS *bool `json:"verify_tls,omitempty"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
 		return err
@@ -66,7 +66,7 @@ func (m WebhookPayloadForResponse) MarshalJSON() ([]byte, error) {
 	var dataAO1 struct {
 		SigningSecret string `json:"signing_secret,omitempty"`
 
-		VerifyTLS bool `json:"verify_tls,omitempty"`
+		VerifyTLS *bool `json:"verify_tls,omitempty"`
 	}
 
 	dataAO1.SigningSecret = m.SigningSecret
